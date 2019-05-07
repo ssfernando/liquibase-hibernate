@@ -25,6 +25,11 @@ import liquibase.ext.hibernate.database.connection.HibernateConnection;
  */
 public class HibernateSpringPackageDatabase extends JpaPersistenceDatabase {
 
+    public static final String HIBERNATE_SEARCH_AUTOREGISTER_LISTENER = "hibernate.search.autoregister_listener";
+    public static final String HIBERNATE_SEARCH_INDEXING_STARTEGY = "hibernate.search.indexing_strategy";
+    public static final String HIBERNATE_SEARCH_DEFAULT_INDEXMANAGER = "hibernate.search.default.indexmanager";
+    public static final String HIBERNATE_SEARCH_ANALYSIS_DEFINITION_PROVIDER = "hibernate.search.default.elasticsearch.analysis_definition_provider";
+
     @Override
     public boolean isCorrectDatabaseImplementation(DatabaseConnection conn) throws DatabaseException {
         return conn.getURL().startsWith("hibernate:spring:") && !isXmlFile(conn);
@@ -93,6 +98,8 @@ public class HibernateSpringPackageDatabase extends JpaPersistenceDatabase {
         map.put(AvailableSettings.USE_SECOND_LEVEL_CACHE, Boolean.FALSE.toString());
         map.put(AvailableSettings.PHYSICAL_NAMING_STRATEGY, getHibernateConnection().getProperties().getProperty(AvailableSettings.PHYSICAL_NAMING_STRATEGY));
         map.put(AvailableSettings.IMPLICIT_NAMING_STRATEGY, getHibernateConnection().getProperties().getProperty(AvailableSettings.IMPLICIT_NAMING_STRATEGY));
+        map.put(HIBERNATE_SEARCH_AUTOREGISTER_LISTENER, getHibernateConnection().getProperties().getProperty(HIBERNATE_SEARCH_AUTOREGISTER_LISTENER));
+        map.put(HIBERNATE_SEARCH_INDEXING_STARTEGY, getHibernateConnection().getProperties().getProperty(HIBERNATE_SEARCH_INDEXING_STARTEGY));
         map.put(AvailableSettings.SCANNER_DISCOVERY, "");	// disable scanning of all classes and hbm.xml files. Only scan speficied packages
         
         EntityManagerFactoryBuilderImpl builder = (EntityManagerFactoryBuilderImpl) Bootstrap.getEntityManagerFactoryBuilder(persistenceUnitInfo, map);
